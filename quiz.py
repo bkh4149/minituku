@@ -1,8 +1,4 @@
-#ファイルから問題セットを読み込むようにした2023/08/18
-#３問に増やした、セッションで 2023-08-15
-#４たくで複数回答あり、解答群は多数の中から４つをランダムで選択という形式のクイズ
 import random
-
 from flask import Flask, redirect, url_for, render_template, request,session
 from flask_session import Session
 A1 = Flask(__name__)
@@ -12,8 +8,6 @@ import datetime
 def month():
     now = datetime.datetime.now()    # 現在の日付と時刻を取得
     m = now.month       # 現在の月を取得
-    #print("@48 type=",type(m),m)
-    #print(f"今月は{m}月です。")
 
 #ファイルから問題解答群セットの読み込み
 def readf(fn):
@@ -23,7 +17,6 @@ def readf(fn):
             line = line.strip()  # 改行を取り除く
             items = line.split(",")  # カンマで分割
             sets.append(items)
-    #print("sets=", sets)
     return sets
 
 #------ここから--------------------------
@@ -37,7 +30,10 @@ qa_sets=readf(fn)
 
 @A1.route('/endOfQuiz', methods=['GET'])
 def endOfQuiz():
-    return "End OF Quiz"
+    finalResult=session["kekka"]
+    #print(f"{finalResult=}") finalResult={0: 0, 1: 1, 2: 0, 3: 0, 4: 1, 5: 0}
+    #return "End OF Quiz"
+    return render_template('endOfQuiz.html', finalResult=finalResult)
 
 @A1.route('/makeAQuiz', methods=['GET'])
 def makeAQuiz():
@@ -47,7 +43,7 @@ def makeAQuiz():
     #問題番号と問題の取得    
     Q_total = session["Q_total"]
     Q_no = session["Q_no"]
-    if Q_no>Q_total:
+    if Q_no>=Q_total:
         return redirect(url_for("endOfQuiz"))
 
     #問題が進むとsessionは、 session=<FileSystemSession {'status': 'login', 'Q_no': 8, 'kekka': {0: 1, 1: 1, 2: 0, 3: 1, 4: 1, 5: 0, 6: 0, 7: 1}, 'correct_ans': []}>
@@ -90,8 +86,6 @@ def check_answer():
     #ログインしてなければログインへ
     if session.get("status") != "login":
         return redirect(url_for("login"))
-    # if "status" not in session or  session["status"]!="login":
-    #     return redirect(url_for("login"))   
 
     #第何問目かを取得
     Q_no=session["Q_no"]
@@ -120,14 +114,11 @@ def check_answer():
 
     #最後の問題ならセッションを削除    
     if session["Q_no"]==len(qa_sets)-1:
-        #print('==========session["Q_no"]=',session["Q_no"],"len(qa_sets)-1=",len(qa_sets)-1)
         del session['Q_no']    
         del session['status']    
     else:
         session["Q_no"]+=1
 
-    #print('@86 session["Q_no"]=',session["Q_no"],"data_type=",data_type)
     return render_template('kekka.html',kekka=kekka,Q_no=Q_no,maxq=len(qa_sets),kaisetu=qa[2],data_type=data_type,janru=qa[3],correct_ans=correct_ans)
  
-#if __name__ == "__main__":
-#    A1.run(debug=True,port=8888)
+

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>クイズ結果</title>
+</head>
+<body>
+    <h1>クイズ結果</h1>
+    <ul>
+        {% for question_id, result in finalResult.items() %}
+            <li>第{{ question_id + 1 }}問目：{{ '正解' if result else '不正解' }}</li>
+        {% endfor %}
+    </ul>
+    <p>総合点：{{ finalResult.values() | sum }}　（5点満点中）</p>
+</body>
+</html>

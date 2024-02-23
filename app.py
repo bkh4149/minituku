@@ -1,12 +1,8 @@
-
-
 from flask import Flask, redirect, url_for, render_template, request,session
 from flask_session import Session
-#from app2 import *
-import datetime
+#import datetime
 import pymysql
 import bcrypt
-#import app2
 from quiz import A1  # appのインスタンス化はこっちでやっている、そのインスタンスA1をインポート
 
 A1.config['SECRET_KEY'] = 'your_secret_key_here'
@@ -35,7 +31,7 @@ def login2():
     # SQLクエリを作成
     C1.execute(sql, (username))    # SQLクエリを実行
     fetch_data = C1.fetchone()
-    # print(f"{fetch_data=}")  fetch_data=(2, 'rrr', '$2b$12$1ufbC9OYOcTABhWqtDvOc.nRUi3vivdGCM.CbllbQmpkHkTGhjBUK', 0)
+    #fetch_data=(2, 'rrr', '$2b$12$1ufbC9OYOcTABhWqtDvOc.nRUi3vivdGCM.CbllbQmpkHkTGhjBUK', 0)
     D1.close()    # データベース接続を閉じる
     
     if fetch_data :#データベースにusenameがあるなら（パスワードが一致したならではなく、単にユーザーが登録済みなら）
@@ -66,7 +62,7 @@ def login2():
             # データベースに接続
             D1 = pymysql.connect(**connect)
             C1 = D1.cursor()
-            sql = f"UPDATE users SET try_count = try_count + 1 WHERE id_name = %s"            # SQLクエリを作成
+            sql = f"UPDATE users SET try_count = try_count + 1 WHERE id_name = %s"    # SQLクエリを作成
             C1.execute(sql, (username,))    # SQLクエリを実行
             D1.commit()                     # 変更をコミット
             D1.close()                      # データベース接続を閉じる
