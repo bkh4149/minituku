@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Month Quiz</title>
+    <style>
+        /* 追加するスタイル */
+        pre {
+            text-align: left !important;  /* `!important` はBootstrapや他のスタイルと競合しないようにするため */
+        }
+    </style>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1>{{ question|safe }}</h1>
+                </div>
+                <div class="card-body">
+                    <form action="/check_answer" method="post">
+                        {% for i in choices %}
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="choice" value="{{ i }}" id="choice{{ loop.index }}">
+                                <label class="form-check-label" for="choice{{ loop.index }}">
+                                    {{i}}
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

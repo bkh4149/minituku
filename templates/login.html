@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                          <p>{{ message }}</p>
+                          <h1>Login</h1>
+                    </div>
+
+                    <div class="card-body"></div>
+                        <form method="POST" action="login">
+                            <input type="text" name="username" placeholder="Username" required>
+                            <input type="password" name="password" placeholder="Password" required>
+                            <!-- <input type="submit" value="Login"> -->
+                            <button type="submit" value="login" class="btn btn-primary mt-3">login
+                            </button>
+
+                        </form>
+
+                        <form method="GET" action="regist">
+                            <!-- <input type="submit" value="regist"> -->
+                            <button type="submit" value="regist" class="btn btn-primary mt-3">regist
+
+                            </button>                            
+                        </form>
+                    </div>    
+                </div>    
+            </div>    
+        </div>    
+    </div>    
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Month Quiz</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <p>ジャンル：{{janru}}</p>
+
+                    <h1>{{ kekka }}</h1>
+
+                    <h4>正解：
+                        {% for cor in cors %}
+                        <p>{{cor}}</p>
+                        {% endfor  %}    
+
+                     </h4>   
+
+                    {% if data_type == 'url' %}
+                        <a href="{{ kaisetu }}"> link</a>
+                    {% elif data_type == 'image' %}
+                        <img src="{{ kaisetu }}" alt="Description of the image">
+                    {% elif data_type == 'text' %}
+                        <p>{{ kaisetu }}</p>
+                    {% endif %}
+
+                </div>
+                <div class="card-body text-center">
+                    {% if q_no==maxq-1 %}
+                        <p>終了</p>
+                    {% else %}
+                        <form action="/makeAQuiz" method="get">
+                            <button type="submit" class="btn btn-primary">Next</button>
+                        </form>  
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
