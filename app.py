@@ -1,15 +1,10 @@
+import os
 from flask import Flask, redirect, url_for, render_template, request,session
 from flask_session import Session
 #import datetime
 import pymysql
 import bcrypt
 from quiz import A1  # appのインスタンス化はこっちでやっている、そのインスタンスA1をインポート
-
-A1.config['SECRET_KEY'] = 'your_secret_key_here'
-A1.config['SESSION_TYPE'] = 'filesystem'
-Session(A1)
-
-connect={"host":"localhost", "user":"root", "password":"", "db":"user"}
 
 @A1.route("/")
 def start():
@@ -27,9 +22,9 @@ def login2():
     # データベースに接続
     D1 = pymysql.connect(**connect)
     C1 = D1.cursor()
-    sql = f"select * from users where id_name=%s "
+    sql = "select * from users where id_name=%s "
     # SQLクエリを作成
-    C1.execute(sql, (username))    # SQLクエリを実行
+    C1.execute(sql, (username,))    # SQLクエリを実行
     fetch_data = C1.fetchone()
     #fetch_data=(2, 'rrr', '$2b$12$1ufbC9OYOcTABhWqtDvOc.nRUi3vivdGCM.CbllbQmpkHkTGhjBUK', 0)
     D1.close()    # データベース接続を閉じる
@@ -96,5 +91,25 @@ def regist2():
     D1.close()                      # データベース接続を閉じる
     return render_template("login.html")
 
-A1.run(debug=True)
-#A1.run(host="0.0.0.0", port=8800)
+#---------------------------------------
+# 環境変数 MY_ENV を取得
+my_env = os.getenv('MY_ENV', 'dev') # デフォルト値として 'dev' を使用
+session_secret_key=os.getenv('session_secret_key', 'dev')
+print(f"{my_env=}  {session_secret_key=}")
+# 開発時　my_env='dev'  session_secret_key='dev'
+#　本番時　my_env='production'  session_secret_key='production'
+
+if my_env == 'production':
+    # 本番用の設定や処理
+    print("本番モードで実行中")
+    connect={"host":"localhost", "user":"root", "password":"12345", "db":"user"}
+    A1.run(host='0.0.0.0', port=8800)
+else:
+    # 開発用の設定や処理
+    print("開発モードで実行中")
+    connect={"host":"localhost", "user":"root", "password":"", "db":"user"}
+    A1.run(debug=True)
+
+A1.config['SECRET_KEY'] = session_secret_key
+A1.config['SESSION_TYPE'] = 'filesystem'
+Session(A1)
